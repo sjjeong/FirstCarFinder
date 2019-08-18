@@ -1,7 +1,8 @@
-package com.googry.firstcarfinder
+package com.googry.firstcarfinder.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.googry.firstcarfinder.R
 
 class MainActivity : AppCompatActivity() {
 
