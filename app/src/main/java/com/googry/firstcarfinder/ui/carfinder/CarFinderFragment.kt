@@ -9,4 +9,5 @@ class CarFinderFragment : BaseFragment<FragmentCarFinderBinding, CarFinderViewMo
     R.layout.fragment_car_finder
 ) {
     override val viewModel by viewModel<CarFinderViewModel>()
+
 }
