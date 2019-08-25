@@ -55,9 +55,10 @@
                     android:id="@+id/iv_car_thumbnail"
                     loadUrl="@{item.imageUrl}"
                     android:layout_width="128dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="64dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginTop="4dp"
+                    android:scaleType="fitCenter"
                     tools:background="@color/colorAccent" />
 
             </LinearLayout>
