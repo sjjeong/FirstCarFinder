@@ -1,6 +1,8 @@
 package com.googry.firstcarfinder.remote.model
 
 import com.google.gson.annotations.SerializedName
+import com.googry.firstcarfinder.data.model.DaumCarBrandEntity
+import com.googry.firstcarfinder.data.model.DaumCarEntity
 
 data class DaumCarResponse(
     // 페이지당 몇개
@@ -268,4 +270,26 @@ data class DaumCarResponse(
             )
         }
     }
+}
+
+fun DaumCarResponse.toData(): List<DaumCarEntity> = data.map {
+    DaumCarEntity(
+        title = it.title,
+        imgUrl = it.image.exterior,
+        maxPrice = it.ranking.maxPrice,
+        minPrice = it.ranking.minPrice,
+        bodyType = it.etcInfo.bodyType,
+        maxEfficiency = it.etcInfo.maxEfficiency,
+        minEfficiency = it.etcInfo.minEfficiency,
+        powerTrain = it.etcInfo.powerTrain,
+        releaseDate = it.etcInfo.latestReleaseDate,
+        salesStatus = it.etcInfo.salesStatus,
+        segment = it.etcInfo.segment,
+        years = it.etcInfo.years,
+        brandEntity = DaumCarBrandEntity(
+            title = it.parentCluster.title,
+            logoUrl = it.parentCluster.image.logo,
+            category = it.parentCluster.factor.category
+        )
+    )
 }
