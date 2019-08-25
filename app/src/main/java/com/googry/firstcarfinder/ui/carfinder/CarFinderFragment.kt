@@ -38,6 +38,9 @@ class CarFinderFragment : BaseFragment<FragmentCarFinderBinding, CarFinderViewMo
                     })
                 }
             }
+            refreshLayout.setOnRefreshListener {
+                viewModel.refresh()
+            }
         }
     }
 }

@@ -10,25 +10,28 @@
             type="com.googry.firstcarfinder.ui.carfinder.CarFinderViewModel" />
     </data>
 
-    <FrameLayout
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        app:refreshing="@{vm.liveLoading}">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_content"
-            replaceAll="@{vm.liveCarSummaryList}"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:itemCount="3"
-            tools:listitem="@layout/item_car_summary" />
+            android:orientation="vertical">
 
-        <ProgressBar
-            visible="@{vm.liveLoading}"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_content"
+                replaceAll="@{vm.liveCarSummaryList}"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="3"
+                tools:listitem="@layout/item_car_summary" />
 
-    </FrameLayout>
+        </FrameLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 </layout>

@@ -22,7 +22,7 @@ class CarFinderViewModel(
     val liveCarSummaryList: LiveData<List<CarSummaryModel>> = _liveCarSummaryList
 
     init {
-        loadCarInfo()
+        refresh()
     }
 
     fun loadCarInfo() = viewModelScope.launch {
@@ -51,6 +51,12 @@ class CarFinderViewModel(
                 }
             }
         }
+    }
+
+    fun refresh() {
+        page = 0
+        _liveCarSummaryList.value = mutableListOf()
+        loadCarInfo()
     }
 
 }
