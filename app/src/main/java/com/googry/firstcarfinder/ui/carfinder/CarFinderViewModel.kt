@@ -16,29 +16,41 @@ class CarFinderViewModel(
     private val getCarInfoUseCase: GetCarInfoUseCase
 ) : BaseViewModel() {
 
+    private var page = 0
+
     private var _liveCarSummaryList = MutableLiveData<List<CarSummaryModel>>()
     val liveCarSummaryList: LiveData<List<CarSummaryModel>> = _liveCarSummaryList
 
     init {
-        viewModelScope.launch {
-            getCarInfoUseCase(
-                1,
-                DaumCarSortField.RANKING_PV,
-                DaumCarSortOrder.DESC,
-                listOf(DaumCarSalesStatus.SELLING_S, DaumCarSalesStatus.SELLING_N),
-                DaumCarSegment.values().toList(),
-                DaumCarBodyType.values().toList()
-            ).collect {
-                when (it) {
-                    is DataResource.Success -> _liveCarSummaryList.postValue(it.data.toPresentation())
-                    is DataResource.Error -> {
-                        it.exception.printStackTrace()
-                    }
-                    DataResource.Loading -> {
+        loadCarInfo()
+    }
 
-                    }
+    fun loadCarInfo() = viewModelScope.launch {
+        page++
+        getCarInfoUseCase(
+            page,
+            DaumCarSortField.RANKING_PV,
+            DaumCarSortOrder.DESC,
+            listOf(DaumCarSalesStatus.SELLING_S, DaumCarSalesStatus.SELLING_N),
+            DaumCarSegment.values().toList(),
+            DaumCarBodyType.values().toList()
+        ).collect {
+            when (it) {
+                is DataResource.Success -> {
+                    _liveLoading.value = false
+                    val list = _liveCarSummaryList.value?.toMutableList() ?: mutableListOf()
+                    list.addAll(it.data.toPresentation())
+                    _liveCarSummaryList.postValue(list)
+                }
+                is DataResource.Error -> {
+                    _liveLoading.value = false
+                    it.exception.printStackTrace()
+                }
+                DataResource.Loading -> {
+                    _liveLoading.value = true
                 }
             }
         }
     }
+
 }

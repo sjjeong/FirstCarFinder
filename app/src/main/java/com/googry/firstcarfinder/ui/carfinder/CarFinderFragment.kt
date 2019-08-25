@@ -1,8 +1,10 @@
 package com.googry.firstcarfinder.ui.carfinder
 
 import android.os.Bundle
+import androidx.recyclerview.widget.RecyclerView
 import com.dino.library.ui.BaseFragment
 import com.dino.library.ui.SimpleRecyclerView
+import com.dino.library.util.EndlessRecyclerViewScrollListener
 import com.googry.firstcarfinder.BR
 import com.googry.firstcarfinder.R
 import com.googry.firstcarfinder.databinding.FragmentCarFinderBinding
@@ -17,10 +19,25 @@ class CarFinderFragment : BaseFragment<FragmentCarFinderBinding, CarFinderViewMo
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        binding.rvContent.adapter =
-            object : SimpleRecyclerView.Adapter<CarSummaryModel, ItemCarSummaryBinding>(
-                R.layout.item_car_summary,
-                BR.item
-            ) {}
+        binding {
+            rvContent.run {
+                adapter =
+                    object : SimpleRecyclerView.Adapter<CarSummaryModel, ItemCarSummaryBinding>(
+                        R.layout.item_car_summary,
+                        BR.item
+                    ) {}
+                layoutManager?.let {
+                    addOnScrollListener(object : EndlessRecyclerViewScrollListener(it) {
+                        override fun onLoadMore(
+                            page: Int,
+                            totalItemsCount: Int,
+                            view: RecyclerView
+                        ) {
+                            viewModel.loadCarInfo()
+                        }
+                    })
+                }
+            }
+        }
     }
 }
