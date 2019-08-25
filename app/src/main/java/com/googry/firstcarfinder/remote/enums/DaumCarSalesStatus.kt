@@ -16,6 +16,6 @@ enum class DaumCarSalesStatus(val type: String) {
         const val KEY = "etcInfo.salesStatus"
 
         fun getParam(statusList: List<DaumCarSalesStatus>) =
-            "IN" + statusList.map { it.type }.reduce { acc, salesStatus -> "${acc}__$salesStatus" }
+            "IN" + statusList.map { "__${it.type}" }.reduce { acc, salesStatus -> "$acc$salesStatus" }
     }
 }

@@ -16,6 +16,6 @@ enum class DaumCarSegment(val type: String) {
         const val KEY = "etcInfo.segment"
 
         fun getParam(segmentList: List<DaumCarSegment>) =
-            "IN" + segmentList.map { it.type }.reduce { acc, salesStatus -> "${acc}__$salesStatus" }
+            "IN" + segmentList.map { "__${it.type}" }.reduce { acc, salesStatus -> "$acc$salesStatus" }
     }
 }

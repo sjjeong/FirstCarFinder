@@ -17,14 +17,28 @@ class DaumAutoRemoteDataSourceImpl(
         segment: List<DaumCarSegment>?,
         bodyType: List<DaumCarBodyType>?
     ): List<DaumCarEntity> {
-        val filterKey =
-            (if (salesStatus != null) DaumCarSalesStatus.KEY else "") +
-                    (if (segment != null) DaumCarSegment.KEY else "") +
-                    (if (bodyType != null) DaumCarBodyType.KEY else "")
-        val filterVal =
-            (if (!salesStatus.isNullOrEmpty()) DaumCarSalesStatus.getParam(salesStatus) else "") +
-                    (if (!segment.isNullOrEmpty()) DaumCarSegment.getParam(segment) else "") +
-                    (if (!bodyType.isNullOrEmpty()) DaumCarBodyType.getParam(bodyType) else "")
+        val filterKey = mutableListOf<String>().apply {
+            if (salesStatus != null) {
+                add(DaumCarSalesStatus.KEY)
+            }
+            if (segment != null) {
+                add(DaumCarSegment.KEY)
+            }
+            if (bodyType != null) {
+                add(DaumCarBodyType.KEY)
+            }
+        }.joinToString(",")
+        val filterVal = mutableListOf<String>().apply {
+            if (!salesStatus.isNullOrEmpty()) {
+                add(DaumCarSalesStatus.getParam(salesStatus))
+            }
+            if (!segment.isNullOrEmpty()) {
+                add(DaumCarSegment.getParam(segment))
+            }
+            if (!bodyType.isNullOrEmpty()) {
+                add(DaumCarBodyType.getParam(bodyType))
+            }
+        }.joinToString(",")
 
 
         return daumAutoApi.getCarInfo(

@@ -14,6 +14,6 @@ enum class DaumCarBodyType(val type: String) {
         const val KEY = "etcInfo.bodyType"
 
         fun getParam(bodyTypeList: List<DaumCarBodyType>) =
-            "IN" + bodyTypeList.map { it.type }.reduce { acc, salesStatus -> "${acc}__$salesStatus" }
+            "IN" + bodyTypeList.map { "__${it.type}" }.reduce { acc, salesStatus -> "$acc$salesStatus" }
     }
 }
